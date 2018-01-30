@@ -1,3 +1,5 @@
+import javax.xml.ws.soap.Addressing;
+
 public class Adresse {
     private String wohnort;
     private String straße;
@@ -12,6 +14,14 @@ public class Adresse {
 
     }
 
+    public Adresse() {
+    }
+
+
+    public Adresse(int postleitzahl) {
+        this.postleitzahl = postleitzahl;
+    }
+
     // Kann ich eine Klasse nicht soweit überladen, dass ich keine Werte eingeben muss?
     //public Adresse (){
     //   this(null);
@@ -20,21 +30,25 @@ public class Adresse {
     public void setStraße(String newStraße) {
         this.straße = newStraße;
     }
-    String getStraße(){
+
+    String getStraße() {
         return this.straße;
     }
+
     public void setHausnummer(int newHausnummer) {
         this.hausnummer = newHausnummer;
     }
 
-    int getHausnummer(){
+    int getHausnummer() {
         return this.hausnummer;
 
-    }public void setPostleitzahl(int newPostleitzahl) {
+    }
+
+    public void setPostleitzahl(int newPostleitzahl) {
         this.postleitzahl = newPostleitzahl;
     }
 
-    int getPostleitzahl(){
+    int getPostleitzahl() {
         return this.postleitzahl;
     }
 
@@ -42,10 +56,9 @@ public class Adresse {
         this.wohnort = newWohnort;
     }
 
-    String getWohnort(){
+    String getWohnort() {
         return this.wohnort;
     }
-
 
 
 }

@@ -1,59 +1,26 @@
-public class User {
-    private String vorname;
-    private String email;
-    private Statusmeldung[] posts;
-    private int ersterFreierIndex;
-    private int geburtsjahr;
+import java.util.ArrayList;
+import java.util.List;
 
-    Adresse newUserAdresse = new Adresse("a", 1, 96757, "adf");
+public class User extends Person {
+    List<Statusmeldung> posts;
 
-    public User(String vorname, String email, int geburtsjahr, Adresse newUserAdresse) {
-        this.vorname = vorname;
-        this.email = email;
-        this.geburtsjahr = geburtsjahr;
+    Adresse newUserAdresse;
+
+    public User(String vorname, String nachname, String email, String passwort, int geburtsjahr, Adresse newUserAdresse) {
+        super(vorname, nachname, email, passwort, geburtsjahr);
         this.newUserAdresse = newUserAdresse;
-        posts = new Statusmeldung[10];
-        ersterFreierIndex = 0;
-    }
-
-    public User(String vorname, String email, int geburtsjahr) {
-        this(vorname, email, geburtsjahr, null);
-    }
-
-    //Setter
-    public void setVorname(String newVorname) {
-        this.vorname = newVorname;
+        this.posts = new ArrayList<Statusmeldung>();
 
     }
 
-    //Getter
-    String getVorname() {
-        return this.vorname;
+    public User(String vorname, String nachname, String email, String passwort, int geburtsjahr) {
+        this(vorname, nachname, email, passwort, geburtsjahr, null);
     }
 
-    public void setEmail(String newEmail) {
-        this.email = newEmail;
-
+    public void postHinzufügen(String text) {
+        this.posts.add(new Statusmeldung(text, this));
     }
 
-    String getEmail() {
-        return this.email;
-    }
-
-    public void setGeburtsjahr(int newGeburtsjahr) {
-        if (geburtsjahr > 1900 && geburtsjahr < 2018) {
-            this.geburtsjahr = newGeburtsjahr;
-        } else
-
-        {
-            System.out.println("Angegebenes Geburtsjahr nicht valide");
-        }
-
-    }
-
-    int getGeburtsjahr() {
-        return this.geburtsjahr;
-    }
 
     public void setAdresse(Adresse newAdresse) {
         this.newUserAdresse = newAdresse;
@@ -64,19 +31,11 @@ public class User {
         return this.newUserAdresse;
     }
 
-
-    public boolean istVolljährig() {
-        return 2018 - geburtsjahr >= 18;
+    public void gibAlleStatusMeldungenAus() {
+        for (Statusmeldung post : posts) {
+            System.out.println(post.getText());
+            System.out.println((super.getVorname() + ", " + post.getDatum()));
+        }
     }
-
-    public void postHinzufügen(String text) {
-        this.posts[ersterFreierIndex] = new Statusmeldung(text, this);
-        ersterFreierIndex++;
-    }
-
-    public Statusmeldung getPost(int i) {
-        return posts[i];
-    }
-
 
 }

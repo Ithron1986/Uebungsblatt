@@ -1,3 +1,5 @@
+import com.sun.xml.internal.bind.v2.runtime.MimeTypedTransducer;
+
 public class Main {
     public static int quadratzahl(int zahl) {
         return zahl * zahl;
@@ -17,20 +19,41 @@ public class Main {
 
     public static void main(String[] args) {
 
-        int zahl = Main.quadratzahl(5);
-        System.out.println(zahl);
-        System.out.println(Main.quadratzahl(10));
-        System.out.println(quadratzahl(3));
-        System.out.println(Main.addieren(1));
-        User manni = new User("Manni", "manni@hochschule-trier.de", 1986);
-        Statusmeldung ersterPost = new Statusmeldung("ihr könnt mir garnichts", manni);
 
-        manni.postHinzufügen("hallo du lulli");
+        AddressBuilder builder = new AddressBuilder();
+
+
+        Adresse adresse = builder.withHausnummer(5)
+                .withPostleitzahl(91757)
+                .withWohnort("Treuchtlingen")
+                .build();
+
+        User user = new User("hans", "wurscht", "hans@wurscht.com", "wer", 1992,
+                new Adresse(43245));
+
+        User user2 = new User("manni", "Mannheim", "mannheim@gmail.com", "asdfadf", 1986);
+
+
+        Mitarbeiter mittarbeiter1 = new Mitarbeiter("Egon", "Lehner", "egon.lehner@web.de", "passwort", 1965);
+
+        Datenbank datenbank = new Datenbank();
+        datenbank.register(user);
+        datenbank.register(user2);
+        datenbank.register(mittarbeiter1);
+
+        LoginMechanismus hauptTor = new LoginMechanismus(datenbank);
+
+        System.out.println( hauptTor.login(new User("adf","asdfa","asdf@asdf","asd",1985)));
+
+
+
+        user.postHinzufügen("hallo du lulli");
+        user.postHinzufügen("bin gerade in der Vorlesung");
         //System.out.println(manni.gibeineStatusmeldungAus());
-        System.out.println(manni.getPost(0).getText());
+        user.gibAlleStatusMeldungenAus();
 
 
-        if (manni.istVolljährig()) {
+        if (user.istVolljährig()) {
             System.out.println("Internet is for porn");
         } else {
             System.out.println("du kommst hier nicht rein");
