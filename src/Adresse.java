@@ -22,11 +22,6 @@ public class Adresse {
         this.postleitzahl = postleitzahl;
     }
 
-    // Kann ich eine Klasse nicht soweit überladen, dass ich keine Werte eingeben muss?
-    //public Adresse (){
-    //   this(null);
-    //}
-
     public void setStraße(String newStraße) {
         this.straße = newStraße;
     }

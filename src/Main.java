@@ -1,27 +1,18 @@
 import com.sun.xml.internal.bind.v2.runtime.MimeTypedTransducer;
 
-public class Main {
-    public static int quadratzahl(int zahl) {
-        return zahl * zahl;
-    }
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 
-    /* public static void greetings(String name)
-     {
-          System.out.println("Hallo "+ name + "!");
-     }*/
-    public static double addieren(double... zahlen) {
-        double summe = 0;
-        for (int i = 0; i < zahlen.length; i++) {
-            summe = summe + zahlen[i];
-        }
-        return summe; // hat im skript gefehlt
-    }
+public class Main {
 
     public static void main(String[] args) {
 
 
         AddressBuilder builder = new AddressBuilder();
 
+        Datenbank datenbank = new Datenbank();
+        UserSpeicher speicher1= new UserSpeicher(datenbank);
 
         Adresse adresse = builder.withHausnummer(5)
                 .withPostleitzahl(91757)
@@ -33,35 +24,58 @@ public class Main {
 
         User user2 = new User("manni", "Mannheim", "mannheim@gmail.com", "asdfadf", 1986);
 
-
+/*
         Mitarbeiter mittarbeiter1 = new Mitarbeiter("Egon", "Lehner", "egon.lehner@web.de", "passwort", 1965);
+        mittarbeiter1.setEmail("adfasdf@awesomecompany.com"); //ich kann trotzdem in den konstruktor ne falsche email übergeben
+        System.out.println(mittarbeiter1.getEmail());
 
-        Datenbank datenbank = new Datenbank();
+
+
         datenbank.register(user);
         datenbank.register(user2);
         datenbank.register(mittarbeiter1);
 
         LoginMechanismus hauptTor = new LoginMechanismus(datenbank);
 
-        System.out.println( hauptTor.login(new User("adf","asdfa","asdf@asdf","asd",1985)));
+        user2.postHinzufügen("hallo du lulli");
+        user2.postHinzufügen("bin gerade in der Vorlesung");
+        user2.postHinzufügen("Habe hemoriden!!!!!!");
+        user2.postHinzufügen("man das tut weh");
+        user2.postHinzufügen("sollte villeicht einen Arzt aufsuchen und nicht den Schmarn im sozialen Netzwerk posten");
+        List<Statusmeldung> gefiltertePosts = user2.filtereNachZeichenZahl(20);
+        for (int i = 0; i < gefiltertePosts.size(); i++) {
+            System.out.println(gefiltertePosts.get(i).getText());
+        }
+*/
+        // Ich brauch ne Liste an Nutzern!!!!!
+       speicher1.saveUser(user);
+       speicher1.saveUser(user2);
 
 
 
-        user.postHinzufügen("hallo du lulli");
-        user.postHinzufügen("bin gerade in der Vorlesung");
-        //System.out.println(manni.gibeineStatusmeldungAus());
-        user.gibAlleStatusMeldungenAus();
+        //System.out.println(user2.gibeineStatusmeldungAus());
+       /* user2.gibAlleStatusMeldungenAus();
+        System.out.println(datenbank.istNutzervorhanden(mittarbeiter1.getEmail(), mittarbeiter1.getPasswort()));
+        System.out.println(datenbank.istNutzervorhanden(mittarbeiter1.getEmail(), "aaaa"));
 
+        */
 
+/*
+        l = user2;
+        l.loesche(datenbank);
+        l = mittarbeiter1;
+        l.loesche(datenbank);
+        System.out.println(datenbank.istNutzervorhanden(mittarbeiter1.getEmail(), mittarbeiter1.getPasswort()));
+*/
+//"G:\6_Datein\Unterlagen2018\Programmieren\NeuerUser.csv"
+/*
         if (user.istVolljährig()) {
             System.out.println("Internet is for porn");
         } else {
             System.out.println("du kommst hier nicht rein");
         }
+*/
 
-
-        //String name = Main.greetings(Stefan);
-        //System.out.println(Main.greetings(Stefan));
     }
 
 

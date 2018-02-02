@@ -1,10 +1,13 @@
-public class Person {
+import java.time.LocalDateTime;
+
+public abstract class Person {
 
     private String vorname;
     private String nachname;
-    private String email;
+    protected String email;
     private int geburtsjahr;
     private String passwort;
+    int aktuellesJahr = LocalDateTime.now().getYear();
 
     public Person(String vorname, String nachname, String email, String passwort, int geburtsjahr) {
         this.vorname = vorname;
@@ -39,21 +42,21 @@ public class Person {
     }
 
     public void setPasswort(String passwort) {
-        this.passwort = passwort;
+        final int minimalePasswortlänge = 8;
+        if (passwort.length() >= minimalePasswortlänge) {
+            this.passwort = passwort;
+        } else{ throw new DoesNotFitLengthPassword(passwort);
+        }
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public abstract void setEmail(String email);
+
 
     public void setGeburtsjahr(int newGeburtsjahr) {
-        if (geburtsjahr > 1900 && geburtsjahr < 2018) {
-            this.geburtsjahr = newGeburtsjahr;
-        } else
+        if (geburtsjahr <= 1900 || geburtsjahr > this.aktuellesJahr)
+            throw new DoesNotFitException(1900, this.aktuellesJahr, geburtsjahr);
 
-        {
-            System.out.println("Angegebenes Geburtsjahr nicht valide");
-        }
+        this.geburtsjahr = newGeburtsjahr;
 
     }
 
@@ -62,7 +65,7 @@ public class Person {
     }
 
     public boolean istVolljährig() {
-        return 2018 - geburtsjahr >= 18;
+        return this.aktuellesJahr - geburtsjahr >= 18;
     }
 
 }

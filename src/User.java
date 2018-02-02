@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class User extends Person {
+public class User extends Person implements Loeschbar {
     List<Statusmeldung> posts;
 
     Adresse newUserAdresse;
@@ -9,12 +9,34 @@ public class User extends Person {
     public User(String vorname, String nachname, String email, String passwort, int geburtsjahr, Adresse newUserAdresse) {
         super(vorname, nachname, email, passwort, geburtsjahr);
         this.newUserAdresse = newUserAdresse;
-        this.posts = new ArrayList<Statusmeldung>();
+        this.posts = new ArrayList<>();
 
     }
 
     public User(String vorname, String nachname, String email, String passwort, int geburtsjahr) {
         this(vorname, nachname, email, passwort, geburtsjahr, null);
+    }
+
+    public String toString() {
+        return getVorname() + "," + getNachname() + "," + getEmail() + "," + getPasswort() + "," + getGeburtsjahr()+"\n";
+    }
+
+    public List<Statusmeldung> filtereNachZeichenZahl(int zeichenzahl) {
+        ArrayList<Statusmeldung> ergebnis = new ArrayList<>();
+        for (Statusmeldung s : posts) {
+            if (s.getText().length() > zeichenzahl) {
+                ergebnis.add(s);
+            }
+        }
+        return ergebnis;
+    }
+
+    public void setEmail(String email) {
+        if (!email.isEmpty() && email.contains("@") && email.contains(".")) {
+            super.email = email;
+        } else {
+            System.out.println("keine gültige Email");
+        }
     }
 
     public void postHinzufügen(String text) {
@@ -38,4 +60,8 @@ public class User extends Person {
         }
     }
 
+    @Override
+    public void loesche(Datenbank datenbank) {
+        datenbank.loescheUser(getEmail());
+    }
 }
