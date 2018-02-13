@@ -1,3 +1,5 @@
+package logger;
+
 public class LogFileException extends Exception{
 
     private String pfad;

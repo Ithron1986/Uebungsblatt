@@ -1,3 +1,8 @@
+package model;
+
+import datenbank.Datenbank;
+import model.Person;
+
 public class Mitarbeiter extends Person implements Loeschbar {
 
 
@@ -22,7 +27,7 @@ public class Mitarbeiter extends Person implements Loeschbar {
         if (email.endsWith("@awesomecompany.com") && !email.isEmpty()) {
             super.email = email;
         } else {
-            System.out.println("keine gültige Email-Adresse für Mitarbeiter");
+            System.out.println("keine gültige Email-model.Adresse für model.Mitarbeiter");
         }
     }
 

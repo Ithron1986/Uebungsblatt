@@ -1,3 +1,9 @@
+package model;
+
+import datenbank.Datenbank;
+import model.Adresse;
+import model.Person;
+
 import java.util.ArrayList;
 import java.util.List;
 

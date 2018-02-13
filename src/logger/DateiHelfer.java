@@ -1,3 +1,5 @@
+package logger;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -5,7 +7,7 @@ import java.nio.file.StandardOpenOption;
 
 public class DateiHelfer {/*
 
-    public class DateiHelfer {
+    public class logger.DateiHelfer {
         public static String dateiLesen(String dateiPfad) throws IOException {
             return new String(Files.readAllBytes(Paths.get(dateiPfad)));
         }

@@ -1,3 +1,7 @@
+package logger;
+
+import logger.Logger;
+
 public class FakeLogger implements Logger {
     @Override
     public void info(String text) {

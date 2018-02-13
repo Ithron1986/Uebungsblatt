@@ -1,3 +1,10 @@
+package datenbank;
+
+import logger.Logger;
+import model.Mitarbeiter;
+import model.Person;
+import model.User;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,10 +17,10 @@ public class Datenbank {
     public Datenbank() {
         this.users = new HashMap<>();
         this.mitarbeiter = new HashMap<>();
-       /* try{this.logger = new DateiLogger("G:/6_Datein/Unterlagen2018/Programmieren/NeuerUser.csv");}
-        catch (LogFileException lfe){
+       /* try{this.logger = new logger.DateiLogger("G:/6_Datein/Unterlagen2018/Programmieren/NeuerUser.csv");}
+        catch (logger.LogFileException lfe){
             System.err.println(lfe);
-            this.logger = new FakeLogger();
+            this.logger = new logger.FakeLogger();
         }
 */
     }

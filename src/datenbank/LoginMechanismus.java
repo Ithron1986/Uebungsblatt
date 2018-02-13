@@ -1,3 +1,8 @@
+package datenbank;
+
+import datenbank.Datenbank;
+import model.Person;
+
 public class LoginMechanismus {
     private Datenbank datenbank;
 

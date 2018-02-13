@@ -1,3 +1,5 @@
+package model;
+
 public class DoesNotFitException extends IndexOutOfBoundsException {
     public DoesNotFitException(int unter, int ober, int eingegeben) {
         super("Kein zulässiger Wert!" +

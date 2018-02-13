@@ -1,4 +1,5 @@
-import javax.xml.ws.soap.Addressing;
+package model;
+
 
 public class Adresse {
     private String wohnort;
