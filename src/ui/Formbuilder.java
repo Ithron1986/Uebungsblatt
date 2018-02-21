@@ -42,7 +42,7 @@ public class Formbuilder {
 
     public Formbuilder addHeader(String header) {
         Label label = new Label(header);
-        label.setFont(Font.font("muhh",FontWeight.BOLD, 25));
+        label.setFont(Font.font("Arial",FontWeight.BOLD, 25));
         this.result.add(label,currentColIndex,currentRowIndex,6,1);
         currentRowIndex++;
         return this;

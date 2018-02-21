@@ -23,7 +23,7 @@ public class LayoutMethods {
         VBox vbox = new VBox();
 
         Label label1 = new Label("Welcome at Social Network");
-        label1.setFont(Font.font("Willkommen", FontWeight.BOLD, 20));
+        label1.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         Label label2 = new Label("Your network to get together with other people");
 
         vbox.getChildren().addAll(label1, label2);
@@ -79,10 +79,6 @@ public class LayoutMethods {
         HBox.setHgrow(stack, Priority.ALWAYS);    // Give stack any extra space
     }
 
-
-    public GridPane addGridSecondPane() {
-        return addGridSecondPane();
-    }
 
 
 }

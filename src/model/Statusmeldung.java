@@ -22,7 +22,7 @@ public class Statusmeldung {
     }
 
 
-    String getText() {
+    public String getText() {
         return this.text;
     }
 
@@ -30,7 +30,7 @@ public class Statusmeldung {
         this.absender = newAbsender;
     }
 
-    User getAbsender() {
+    public User getAbsender() {
         return this.absender;
     }
 
@@ -38,7 +38,7 @@ public class Statusmeldung {
         this.datum = newDatum;
     }
 
-    LocalDateTime getDatum() {
+    public LocalDateTime getDatum() {
         return this.datum;
     }
 

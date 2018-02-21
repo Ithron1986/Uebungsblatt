@@ -23,7 +23,7 @@ public abstract class Person {
         this.vorname = newVorname;
     }
 
-    String getVorname() {
+    public String getVorname() {
         return this.vorname;
     }
 
@@ -31,7 +31,7 @@ public abstract class Person {
         this.nachname = newNachname;
     }
 
-    String getNachname() {
+    public String getNachname() {
         return this.nachname;
     }
 

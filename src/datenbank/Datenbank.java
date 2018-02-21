@@ -13,8 +13,11 @@ public class Datenbank {
     private Map<String, User> users;
     private Map<String, Mitarbeiter> mitarbeiter;
     private Datenbank standardDatenbank;
+    //UserSpeicher datenspeicher;
 
     public Datenbank() {
+
+        //this.users = userSpeicher.load();
         this.users = new HashMap<>();
         this.mitarbeiter = new HashMap<>();
        /* try{this.logger = new logger.DateiLogger("G:/6_Datein/Unterlagen2018/Programmieren/NeuerUser.csv");}
@@ -41,11 +44,18 @@ public class Datenbank {
             throw new RuntimeException("Unbekannter Nutzertyp");
         }
 
+        //this.datenspeicher.save(this.users);
+
+
     }
 
     public void statuswechselMitarbeiter(String email) {
         Mitarbeiter mitarbeiter = this.mitarbeiter.get(email);
         mitarbeiter.setAktive(false);
+    }
+
+    public User getUser(String email) {
+        return this.users.get(email);
     }
 
     public boolean istNutzervorhanden(String email, String passwort) {

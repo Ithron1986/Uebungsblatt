@@ -101,16 +101,22 @@ public class Main extends Application {
         window.setScene(scene);
         window.setTitle("Social Network");
         window.show();*/
+        //UserSpeicher userSpeicher = new UserSpeicher("C:/hallo.csv");
         Datenbank datenbank = new Datenbank();
+
+
         //datenbank.UserSpeicher speicher1 = new datenbank.UserSpeicher(datenbank);
         User user = new User("hans", "wurscht", "hans@wurscht.com", "wer", 1992,
                 new Adresse(43245));
 
         User user2 = new User("manni", "Mannheim", "mannheim@gmail.com", "asdfadf", 1986);
+        user2.postHinzufügen("Hallo");
+        user2.postHinzufügen("Miau");
+
 
         datenbank.register(user);
         datenbank.register(user2);
-        new App(primaryStage,datenbank);
+        new App(primaryStage, datenbank);
 
 
     }

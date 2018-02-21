@@ -1,6 +1,8 @@
 package model;
 
 import datenbank.Datenbank;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import model.Adresse;
 import model.Person;
 
@@ -8,14 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User extends Person implements Loeschbar {
-    List<Statusmeldung> posts;
+    ObservableList<Statusmeldung> posts;
 
     Adresse newUserAdresse;
 
     public User(String vorname, String nachname, String email, String passwort, int geburtsjahr, Adresse newUserAdresse) {
         super(vorname, nachname, email, passwort, geburtsjahr);
         this.newUserAdresse = newUserAdresse;
-        this.posts = new ArrayList<>();
+        this.posts = FXCollections.observableArrayList();
 
     }
 
@@ -27,15 +29,10 @@ public class User extends Person implements Loeschbar {
         return getVorname() + "," + getNachname() + "," + getEmail() + "," + getPasswort() + "," + getGeburtsjahr()+"\n";
     }
 
-    public List<Statusmeldung> filtereNachZeichenZahl(int zeichenzahl) {
-        ArrayList<Statusmeldung> ergebnis = new ArrayList<>();
-        for (Statusmeldung s : posts) {
-            if (s.getText().length() > zeichenzahl) {
-                ergebnis.add(s);
-            }
-        }
-        return ergebnis;
+    public ObservableList<Statusmeldung> getPosts (){
+        return posts;
     }
+
 
     public void setEmail(String email) {
         if (!email.isEmpty() && email.contains("@") && email.contains(".")) {
@@ -57,13 +54,6 @@ public class User extends Person implements Loeschbar {
 
     Adresse getAdresse() {
         return this.newUserAdresse;
-    }
-
-    public void gibAlleStatusMeldungenAus() {
-        for (Statusmeldung post : posts) {
-            System.out.println(post.getText());
-            System.out.println((super.getVorname() + ", " + post.getDatum()));
-        }
     }
 
     @Override
