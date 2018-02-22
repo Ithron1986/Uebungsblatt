@@ -3,6 +3,7 @@ package datenbank;
 import logger.Logger;
 import model.Mitarbeiter;
 import model.Person;
+import model.Statusmeldung;
 import model.User;
 
 import java.util.HashMap;
@@ -13,9 +14,10 @@ public class Datenbank {
     private Map<String, User> users;
     private Map<String, Mitarbeiter> mitarbeiter;
     private Datenbank standardDatenbank;
-    //UserSpeicher datenspeicher;
+    UserSpeicher userSpeicher;
 
-    public Datenbank() {
+    public Datenbank(UserSpeicher userSpeicher) {
+        this.userSpeicher = userSpeicher;
 
         //this.users = userSpeicher.load();
         this.users = new HashMap<>();
@@ -45,9 +47,27 @@ public class Datenbank {
         }
 
         //this.datenspeicher.save(this.users);
-
-
     }
+
+    public void updateUserData(User user, String email) {
+        System.out.println("hier");
+        User alterUser = users.get(email);
+        String lineToremove = alterUser.toString();
+        alterUser.setVorname(user.getVorname());
+        alterUser.setNachname(user.getNachname());
+        alterUser.setEmail(user.getEmail());
+        alterUser.setPasswort(user.getPasswort());
+        alterUser.setGeburtsjahr(user.getGeburtsjahr());
+        alterUser.setAdresse(user.getAdresse());
+
+        userSpeicher.removeLine(lineToremove);
+        userSpeicher.saveUser(user);
+    }
+
+    public void speichereStatusmeldungen(Statusmeldung statusmeldung) {
+        userSpeicher.saveStatusmeldungen(statusmeldung);
+    }
+
 
     public void statuswechselMitarbeiter(String email) {
         Mitarbeiter mitarbeiter = this.mitarbeiter.get(email);

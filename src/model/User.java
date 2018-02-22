@@ -11,25 +11,23 @@ import java.util.List;
 
 public class User extends Person implements Loeschbar {
     ObservableList<Statusmeldung> posts;
-
-    Adresse newUserAdresse;
-
     public User(String vorname, String nachname, String email, String passwort, int geburtsjahr, Adresse newUserAdresse) {
-        super(vorname, nachname, email, passwort, geburtsjahr);
-        this.newUserAdresse = newUserAdresse;
+        super(vorname, nachname, email, passwort, geburtsjahr,newUserAdresse);
+
         this.posts = FXCollections.observableArrayList();
 
     }
+
 
     public User(String vorname, String nachname, String email, String passwort, int geburtsjahr) {
         this(vorname, nachname, email, passwort, geburtsjahr, null);
     }
 
     public String toString() {
-        return getVorname() + "," + getNachname() + "," + getEmail() + "," + getPasswort() + "," + getGeburtsjahr()+"\n";
+        return getVorname() + "," + getNachname() + "," + getEmail() + "," + getPasswort() + "," + getGeburtsjahr() + "\n";
     }
 
-    public ObservableList<Statusmeldung> getPosts (){
+    public ObservableList<Statusmeldung> getPosts() {
         return posts;
     }
 
@@ -42,19 +40,18 @@ public class User extends Person implements Loeschbar {
         }
     }
 
-    public void postHinzufügen(String text) {
-        this.posts.add(new Statusmeldung(text, this));
+    public Statusmeldung postHinzufügen(String text) {
+        Statusmeldung result = new Statusmeldung(text, this);
+        this.posts.add(result);
+        return result;
     }
 
 
-    public void setAdresse(Adresse newAdresse) {
-        this.newUserAdresse = newAdresse;
 
-    }
 
-    Adresse getAdresse() {
-        return this.newUserAdresse;
-    }
+    /*public int getGeburtsjahr() {
+        return geburtsjahr;
+    }*/
 
     @Override
     public void loesche(Datenbank datenbank) {

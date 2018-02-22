@@ -3,10 +3,10 @@ package datenbank;
 import model.Person;
 
 public class CSVimport {
-    Datenbank datenbank = new Datenbank();
+    UserSpeicher userSpeicher = new UserSpeicher();
+    Datenbank datenbank = new Datenbank(userSpeicher);
     Person user;
     Person mitarbeiter;
-
 
 
 }

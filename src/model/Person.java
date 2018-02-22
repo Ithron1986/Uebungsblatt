@@ -10,6 +10,7 @@ public abstract class Person {
     private int geburtsjahr;
     private String passwort;
     int aktuellesJahr = LocalDateTime.now().getYear();
+    Adresse adresse = new Adresse();
 
     public Person(String vorname, String nachname, String email, String passwort, int geburtsjahr) {
         this.vorname = vorname;
@@ -17,6 +18,15 @@ public abstract class Person {
         this.email = email;
         this.geburtsjahr = geburtsjahr;
         this.passwort = passwort;
+    }
+
+    public Person(String vorname, String nachname, String email, String passwort, int geburtsjahr, Adresse adresse) {
+        this.vorname = vorname;
+        this.nachname = nachname;
+        this.email = email;
+        this.geburtsjahr = geburtsjahr;
+        this.passwort = passwort;
+        this.adresse =adresse;
     }
 
     public void setVorname(String newVorname) {
@@ -43,11 +53,23 @@ public abstract class Person {
         return this.passwort;
     }
 
+    public void setAdresse(Adresse newAdresse) {
+        this.adresse = newAdresse;
+
+    }
+
+    public Adresse getAdresse() {
+        return this.adresse;
+    }
+
+
+
     public void setPasswort(String passwort) {
         final int minimalePasswortlänge = 8;
         if (passwort.length() >= minimalePasswortlänge) {
             this.passwort = passwort;
-        } else{ throw new DoesNotFitLengthPassword(passwort);
+        } else {
+            throw new DoesNotFitLengthPassword(passwort);
         }
     }
 
@@ -62,7 +84,7 @@ public abstract class Person {
 
     }
 
-    int getGeburtsjahr() {
+    public int getGeburtsjahr() {
         return this.geburtsjahr;
     }
 

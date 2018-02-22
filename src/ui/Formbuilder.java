@@ -54,7 +54,16 @@ public class Formbuilder {
         TextField textField = new TextField();
         this.controls.put(name, textField);
         this.result.add(label, currentColIndex, currentRowIndex);
-        this.result.add(textField, currentColIndex + 1, currentRowIndex);
+        this.result.add(textField, currentColIndex + 1, currentRowIndex,2,1);
+        currentRowIndex++;
+        return this;
+    }
+    public Formbuilder addTextInputField(String name,String userdata) {
+        Label label = new Label(name);
+        TextField textField = new TextField(userdata);
+        this.controls.put(name, textField);
+        this.result.add(label, currentColIndex, currentRowIndex);
+        this.result.add(textField, currentColIndex + 1, currentRowIndex,2,1);
         currentRowIndex++;
         return this;
     }

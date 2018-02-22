@@ -1,4 +1,5 @@
 import datenbank.Datenbank;
+import datenbank.UserSpeicher;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -37,7 +38,7 @@ public class App {
         this.mainLayout.setTop(layoutStartingpage.addHBox());
         this.mainLayout.setLeft(layoutStartingpage.addVBox());
         layoutStartingpage.addStackPane(layoutStartingpage.addHBox());
-        // this.signinScreen();
+
 
         this.mainPageUser(datenbank.getUser("mannheim@gmail.com"));
 
@@ -90,57 +91,73 @@ public class App {
                             , newUserAddress);
                     datenbank.register(user);
                     signinScreen();
-                }), "Confirm");
+                }), "  Confirm  ");
 
         this.mainLayout.setCenter(registrationForm);
     }
-public void changeUserDataPage (){
-    Formbuilder formBuilderChange = new Formbuilder(7, 11);
 
-    GridPane registrationFormChange = formBuilderChange.addHeader("Registration")
-            .addTextInputField("Firstname")
-            .addTextInputField("Lastname")
-            .addTextInputField("E-mail")
-            .addTextInputField("Pasword")
-            .addTextInputField("Year of Birth")
-            .addTextInputField("Post Code")
-            .addTextInputField("Place of Residence")
-            .addTextInputField("Street Name")
-            .addTextInputField("House Number")
-            .build((e -> {
-                String firstname = formBuilderChange.getControls().get("Firstname").getText();
-                String lastname = formBuilderChange.getControls().get("Lastname").getText();
-                String eMail = formBuilderChange.getControls().get("E-mail").getText();
-                String pasword = formBuilderChange.getControls().get("Pasword").getText();
-                String yearOfBirth = formBuilderChange.getControls().get("Year of Birth").getText();
-                String postCode = formBuilderChange.getControls().get("Post Code").getText();
-                String placeOfResidence = formBuilderChange.getControls().get("Place of Residence").getText();
-                String streetName = formBuilderChange.getControls().get("Street Name").getText();
-                String houseNumber = formBuilderChange.getControls().get("House Number").getText();
+    public void changeUserDataPage(User user) {
+        Formbuilder formBuilderChange = new Formbuilder(7, 11);
 
-                int yearOfBirthInt = Integer.valueOf(yearOfBirth);
-                int houseNumberInt = Integer.valueOf(houseNumber);
-                int postCodeInt = Integer.valueOf(postCode);
 
-                AddressBuilder addressBuilder = new AddressBuilder();
-                Adresse newUserAddress = addressBuilder.withHausnummer(houseNumberInt)
-                        .withPostleitzahl(postCodeInt)
-                        .withStraße(streetName)
-                        .withWohnort(placeOfResidence)
-                        .build();
-                User user = new User(firstname
-                        , lastname
-                        , eMail
-                        , pasword
-                        , yearOfBirthInt
-                        , newUserAddress);
-                datenbank.register(user);
-                signinScreen();
-            }), "Confirm");
+        formBuilderChange.addHeader("Change data")
+                .addTextInputField("Firstname", user.getVorname())
+                .addTextInputField("Lastname", user.getNachname())
+                .addTextInputField("E-mail", user.getEmail())
+                .addTextInputField("Pasword", user.getPasswort());
+        if (user.getAdresse() != null) {
+            String plz = String.valueOf(user.getAdresse().getPostleitzahl());
+            formBuilderChange.addTextInputField("Post Code", plz);
+        } else {
+            formBuilderChange.addTextInputField("Post Code");
+        }
+        formBuilderChange.addTextInputField("Year of Birth")
+                .addTextInputField("Place of Residence")
+                .addTextInputField("Street Name")
+                .addTextInputField("House Number");
 
-    this.mainLayout.setCenter(registrationFormChange);
+        GridPane registrationFormChange = formBuilderChange.build((e -> {
+            String firstname = formBuilderChange.getControls().get("Firstname").getText();
+            String lastname = formBuilderChange.getControls().get("Lastname").getText();
+            String eMail = formBuilderChange.getControls().get("E-mail").getText();
+            String pasword = formBuilderChange.getControls().get("Pasword").getText();
+            String yearOfBirth = formBuilderChange.getControls().get("Year of Birth").getText();
+            String postCode = formBuilderChange.getControls().get("Post Code").getText();
+            String placeOfResidence = formBuilderChange.getControls().get("Place of Residence").getText();
+            String streetName = formBuilderChange.getControls().get("Street Name").getText();
+            String houseNumber = formBuilderChange.getControls().get("House Number").getText();
 
-}
+            int yearOfBirthInt = Integer.valueOf(yearOfBirth);
+            int houseNumberInt = Integer.valueOf(houseNumber);
+            int postCodeInt = Integer.valueOf(postCode);
+
+            AddressBuilder addressBuilder = new AddressBuilder();
+            Adresse newUserAddress = addressBuilder.withHausnummer(houseNumberInt)
+                    .withPostleitzahl(postCodeInt)
+                    .withStraße(streetName)
+                    .withWohnort(placeOfResidence)
+                    .build();
+
+            User userChanged = new User(firstname
+                    , lastname
+                    , eMail
+                    , pasword
+                    , yearOfBirthInt
+                    , newUserAddress);
+            datenbank.updateUserData(userChanged, user.getEmail());
+
+
+            mainPageUser(user);
+        }), "Confirm");
+
+        //Abbruchsknopf der zur Hauptseite führt
+        Button abortButton = new Button("   Abort   ");
+        abortButton.setOnAction(lambdaZwei -> mainPageUser(user));
+        registrationFormChange.add(abortButton, 2, 11, 3, 1);
+
+        this.mainLayout.setCenter(registrationFormChange);
+
+    }
 
 
     private void mainPageUser(User user) {
@@ -199,7 +216,9 @@ public void changeUserDataPage (){
 
 
         //Textfeld der schreibbox
-        TextField schreibBox = new TextField("Write a Message...");
+
+        TextField schreibBox = new TextField();
+        schreibBox.setPromptText("Write your message here....");
         schreibBox.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 14));
         newGridPane.add(schreibBox, 1, 1, 4, 1);
 
@@ -208,7 +227,9 @@ public void changeUserDataPage (){
         Button sendButton = new Button("Send Message");
         sendButton.setOnAction(e -> {
             String post = schreibBox.getText();
-            user.postHinzufügen(post);
+            Statusmeldung neuerPost = user.postHinzufügen(post);
+            datenbank.speichereStatusmeldungen(neuerPost);
+
         });
         newGridPane.add(sendButton, 5, 1, 1, 1);
 
@@ -219,7 +240,10 @@ public void changeUserDataPage (){
         title.setTextAlignment(TextAlignment.CENTER);
         title.setFont(Font.font("Arial", FontWeight.BOLD, 25));
         topHBox.getChildren().add(title);
-        newGridPane.setGridLinesVisible(true);
+
+
+        //Sichtbar machen Grid
+        newGridPane.setGridLinesVisible(false);
 
         // Vbox auf der linken Seite
         VBox vboxLeft = new VBox();
@@ -232,21 +256,21 @@ public void changeUserDataPage (){
         titleVBoxLeft.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         vboxLeft.getChildren().add(titleVBoxLeft);
 
+        //
+        //Hier werde ich kommt man zur Nutzerseite
+        //
+        Button toMainpage = new Button("Mainpage");
+        toMainpage.setOnAction(e -> mainPageUser(user));
+        toMainpage.setStyle("-fx-background-color: #00bfff;");
+        vboxLeft.getChildren().add(toMainpage);
+
+        //
+        //Hier werde ich die Datenänderung ermöglichen wobei alte Daten aus Datenbank entfernt werden und neue abgespeichert
+
         Button buttonChangeUserData = new Button("Change useder data");
-        //buttonChangeUserData.setOnAction(e->);
+        buttonChangeUserData.setOnAction(e -> changeUserDataPage(user));
         buttonChangeUserData.setStyle("-fx-background-color: #00bfff;");
         vboxLeft.getChildren().add(buttonChangeUserData);
-        Hyperlink optionsLeft[] = new Hyperlink[]{
-                new Hyperlink("Change user data"),
-                new Hyperlink("Help")
-        };
-
-
-        for (int j = 0; j < 2; j++) {
-            VBox.setMargin(optionsLeft[j], new javafx.geometry.Insets(0, 8, 0, 0));
-            vboxLeft.getChildren().add(optionsLeft[j]);
-        }
-
 
         VBox vBoxRight = new VBox();
         vBoxRight.setPadding(new javafx.geometry.Insets(8));
@@ -300,7 +324,7 @@ public void changeUserDataPage (){
 
     public void signinScreen() {
         GridPane grid = creatingGrid(7, 11);
-        grid.setGridLinesVisible(true);
+        grid.setGridLinesVisible(false);
 
 
         Text titleSignin = new Text("Welcome");

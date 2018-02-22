@@ -1,6 +1,7 @@
 package datenbank;
 
 import datenbank.Datenbank;
+import model.Statusmeldung;
 import model.User;
 
 import java.io.*;
@@ -10,17 +11,19 @@ import java.nio.file.Files;
 public class UserSpeicher {
     private int speicherFortschritt = 0;
     String currentLine;
-    Datenbank datenbank;
     File inputFile = new File("G:/6_Datein/Unterlagen2018/Programmieren/Datenspeicher.csv");
     File tempFile = new File("G:/6_Datein/Unterlagen2018/Programmieren/Tempfile.csv");
     String pfad = "G:/6_Datein/Unterlagen2018/Programmieren/Datenspeicher.csv";
+    String pfadStatusMeldung = "G:/6_Datein/Unterlagen2018/Programmieren/DatenspeicherStatusmeldungen.csv";
     private String headerLine = "Vorname,Nachname,Email,Passwort,Geburtsjahr";
 
-    public UserSpeicher(Datenbank datenbank) {
-        this.datenbank = datenbank;
+    public UserSpeicher() {
         datenSpeicherohneRedundanz(headerLine);
     }
 
+    public void saveStatusmeldungen(Statusmeldung statusmeldung) {
+        writeLine(statusmeldung.getText(), pfadStatusMeldung);
+    }
 
     // Datei einlesen durchsuchen nach Zeile X in Temp File speichern ohne die bestimmte Zeile X und anschließend ursprungsdatei Löschen + Temp umbennen
 //version 1
@@ -53,17 +56,23 @@ public class UserSpeicher {
     }*/
     //Version2
 
-    public void removeLine(String lineToRemove) throws IOException
-    {
-        File file = new File(pfad);
-        File temp = new File("G:/6_Datein/Unterlagen2018/Programmieren/Tempfile.csv");
-        PrintWriter out = new PrintWriter(new FileWriter(tempFile));
-        Files.lines(file.toPath())
-                .filter(line -> !line.contains(lineToRemove))
-                .forEach(out::println);
-        out.flush();
-        out.close();
-        temp.renameTo(file);
+    public void removeLine(String email) {
+        try {
+            File file = new File(pfad);
+            File temp = new File("G:/6_Datein/Unterlagen2018/Programmieren/Tempfile.csv");
+            PrintWriter out = new PrintWriter(new FileWriter(tempFile));
+            Files.lines(file.toPath())
+                    .filter(line -> !line.contains(email))
+                    .forEach(out::println);
+            out.flush();
+            out.close();
+            boolean hatGeklappt = temp.renameTo(file);
+            if (!hatGeklappt) {
+                System.out.println("hat nicht geklappt");
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 
     /* }
@@ -106,7 +115,7 @@ public class UserSpeicher {
 
     private void datenSpeicherohneRedundanz(String line) {
         if (!istZeileVorhanden(line)) {
-            writeLine(line);
+            writeLine(line, pfad);
         }
     }
 
@@ -132,9 +141,9 @@ public class UserSpeicher {
     }
 
 
-    private void writeLine(String line) {
+    private void writeLine(String line, String pfadVariabel) {
         try {
-            FileWriter newFileWriter = new FileWriter(pfad, true);
+            FileWriter newFileWriter = new FileWriter(pfadVariabel, true);
             newFileWriter.append(line);
             newFileWriter.append("\r\n");
             newFileWriter.close();

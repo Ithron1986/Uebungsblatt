@@ -27,7 +27,7 @@ public class Adresse {
         this.straße = newStraße;
     }
 
-    String getStraße() {
+    public String getStraße() {
         return this.straße;
     }
 
@@ -44,7 +44,7 @@ public class Adresse {
         this.postleitzahl = newPostleitzahl;
     }
 
-    int getPostleitzahl() {
+    public int getPostleitzahl() {
         return this.postleitzahl;
     }
 
@@ -52,7 +52,7 @@ public class Adresse {
         this.wohnort = newWohnort;
     }
 
-    String getWohnort() {
+    public String getWohnort() {
         return this.wohnort;
     }
 
